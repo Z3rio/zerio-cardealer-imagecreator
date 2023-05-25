@@ -1,7 +1,7 @@
 -- THIS IS ORIGINALLY MADE BY RENZUZU ALTHOUGH REWORKED BY ZERIO
 
 Config = {}
-Config.DiscordWebHook = 'https://discord.com/api/webhooks/982281937135763496/csvOcjM39cFmPJwMxr7ogJ02c1I3FL7ndKYzhm_Uanqx_-5NfDEPqiW7jXFPdh_dp85J'
+Config.DiscordWebHook = ''
 
 -- Permission
 Config.Admins = {

@@ -12,6 +12,11 @@ RegisterCommand('getperms', function(source, args, rawCommand)
     end
 end)
 
+RegisterNetEvent("zerio-cardealer-imagecreator:getinfo")
+AddEventHandler("zerio-cardealer-imagecreator:getinfo", function()
+    TriggerClientEvent("zerio-cardealer-imagecreator:getinfo", Config.DiscordWebHook)
+end)
+
 RegisterNetEvent("zerio-cardealer-imagecreator:getcars")
 AddEventHandler("zerio-cardealer-imagecreator:getcars", function()
     local src = source

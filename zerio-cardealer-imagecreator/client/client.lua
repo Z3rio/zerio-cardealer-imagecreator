@@ -3,18 +3,25 @@
 local screenshot = false
 local cam = nil
 local VehiclesFromDB = {}
+local webhook = nil
 
 Citizen.CreateThread(function()
     RegisterNetEvent("zerio-cardealer-imagecreator:importcars")
     AddEventHandler("zerio-cardealer-imagecreator:importcars", function(result)
         VehiclesFromDB = result
     end)
+
+    RegisterNetEvent("zerio-cardealer-imagecreator:getinfo")
+    AddEventHandler("zerio-cardealer-imagecreator:getinfo", function(result)
+        webhook = result
+    end)
+
     TriggerServerEvent("zerio-cardealer-imagecreator:getcars")
+    TriggerServerEvent("zerio-cardealer-imagecreator:getinfo")
 
     Wait(500)
 
     local c = 0
-    -- while not LocalPlayer.state.screenshotperms do print(LocalPlayer.state.screenshotperms) c = c + 1 Wait(1000) if c >= 30 then break end end
     RegisterCommand('startscreenshot', function(source, args, rawCommand)
         if screenshot == false then
             StartScreenShoting()
@@ -138,7 +145,7 @@ Citizen.CreateThread(function()
                 Citizen.Wait(100)
                 SpawnVehicleLocal(v.model)
                 local wait = promise.new()
-                exports['screenshot-basic']:requestScreenshotUpload(Config.DiscordWebHook, 'files', function(data)
+                exports['screenshot-basic']:requestScreenshotUpload(webhook, 'files', function(data)
                     local image = json.decode(data)
                     DestroyMobilePhone()
                     CellCamActivate(false, false)
@@ -196,9 +203,6 @@ Citizen.CreateThread(function()
     local map = 9
     local scene = "scifi"
 
-
-    --         NO TOUCHING BELOW THIS POINT, NO HELP WILL BE OFFERED IF YOU DO.
-    ---------------------------------------------------------------------------------------
     local maps = {
         ["dystopian"] = {
             "Set_Dystopian_01",

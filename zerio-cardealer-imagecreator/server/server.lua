@@ -14,7 +14,7 @@ end)
 
 RegisterNetEvent("zerio-cardealer-imagecreator:getinfo")
 AddEventHandler("zerio-cardealer-imagecreator:getinfo", function()
-    TriggerClientEvent("zerio-cardealer-imagecreator:getinfo", Config.DiscordWebHook)
+    TriggerClientEvent("zerio-cardealer-imagecreator:getinfo", source, Config.DiscordWebHook)
 end)
 
 RegisterNetEvent("zerio-cardealer-imagecreator:getcars")

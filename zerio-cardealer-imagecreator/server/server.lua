@@ -35,5 +35,5 @@ end)
 
 RegisterNetEvent("zerio-cardealer-imagecreator:save")
 AddEventHandler("zerio-cardealer-imagecreator:save", function(data)
-    exports["oxmysql"]:query(string.format("UPDATE `zerio_cardealer-vehicles` SET `image` = '%s' WHERE `model` = '%s'", data.img, data.model))
+    exports["oxmysql"]:query("UPDATE `zerio_cardealer-vehicles` SET `image` = ? WHERE `model` = ?", {data.img, data.model})
 end)

@@ -1,5 +1,16 @@
-# zerio-cardealer-imagecreator
-This is an image creator for my paid script "zerio-cardealer"
+# Zerio Cardealer Image Creator
 
+**THIS was ORIGINALLY MADE BY RENZUZU ALTHOUGH REWORKED BY ZERIO**
 
-The original script was created by renzuzu (github.com/renzuzu/vImageCreator)<br>Although it has been heavily modified to fit my own script (zerio-cardealer)
+- Automatically Generate a Image for All your Vanilla GTA Vehicles or Custom
+  Addon Vehicles
+
+# Installation
+
+- start screenshot-basic
+- start zerio-cardealer-imagecreator
+- Setup a Webhook in config (this is where the images will be saved)
+
+# Dependency
+
+- [screenshot-basic](https://github.com/citizenfx/screenshot-basic)

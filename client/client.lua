@@ -26,7 +26,7 @@ Citizen.CreateThread(function()
       screenshot = true
     else
       screenshot = false
-      if returncoords then
+      if returncoord then
         SetEntityCoords(ped, returncoord.x, returncoord.y, returncoord.z)
       end
     end
@@ -181,26 +181,53 @@ Citizen.CreateThread(function()
           Citizen.Wait(100)
           SpawnVehicleLocal(v.model)
           local wait = promise.new()
-          exports["screenshot-basic"]:requestScreenshotUpload(webhook, "files", function(data)
-            local image = json.decode(data)
-            DestroyMobilePhone()
-            CellCamActivate(false, false)
-            if
-                image
-                and image.attachments
-                and image.attachments[1]
-                and image.attachments[1].proxy_url ~= nil
-            then
-              TriggerServerEvent("zerio-cardealer-imagecreator:save", {
-                model = v.model,
-                img = image.attachments[1].proxy_url,
-              })
-            else
-              error("Seems like the image wasnt successfully uploaded")
-            end
+          if webhook and string.find(webhook, "discord") > 0 then
+            exports["screenshot-basic"]:requestScreenshotUpload(webhook, "files", function(data)
+              local image = json.decode(data)
+              DestroyMobilePhone()
+              CellCamActivate(false, false)
+              if
+                  image
+                  and image.attachments
+                  and image.attachments[1]
+                  and image.attachments[1].proxy_url ~= nil
+              then
+                TriggerServerEvent("zerio-cardealer-imagecreator:save", {
+                  model = v.model,
+                  img = image.attachments[1].proxy_url,
+                })
+              else
+                error("Seems like the image wasnt successfully uploaded")
+              end
 
-            wait:resolve()
-          end)
+              wait:resolve()
+            end)
+          else
+            exports["screenshot-basic"]:requestScreenshotUpload(webhook, "files", {
+              headers = {
+                Authorization = authKey,
+              },
+            }, function(data)
+              local image = json.decode(data)
+              DestroyMobilePhone()
+              CellCamActivate(false, false)
+              if
+                  image
+                  and image.attachments
+                  and image.attachments[1]
+                  and image.attachments[1].proxy_url ~= nil
+              then
+                TriggerServerEvent("zerio-cardealer-imagecreator:save", {
+                  model = v.model,
+                  img = image.attachments[1].proxy_url,
+                })
+              else
+                error("Seems like the image wasnt successfully uploaded")
+              end
+
+              wait:resolve()
+            end)
+          end
           Citizen.Await(wait)
         else
           print("Seems like this model is invalid")
@@ -429,4 +456,3 @@ Citizen.CreateThread(function()
     end
   end
 end)
-

@@ -1,11 +1,14 @@
 RegisterNetEvent("zerio-cardealer-imagecreator:getinfo")
 AddEventHandler("zerio-cardealer-imagecreator:getinfo", function()
-  if Config.DiscordWebHook then
+  if Config.DiscordWebHook ~= nil and Config.DiscordWebHook ~= "" then
     TriggerClientEvent("zerio-cardealer-imagecreator:getinfo", source,
       { url = Config.DiscordWebHook, type = "files", authKey = nil })
-  elseif Config.FiveManageKey then
+  elseif Config.FiveManageKey ~= nil and Config.FiveManageKey ~= "" then
     TriggerClientEvent("zerio-cardealer-imagecreator:getinfo", source,
       { url = "https://api.fivemanage.com/api/image", type = "image", authKey = Config.FiveManageKey })
+  elseif Config.FiveMerrKey ~= nil and Config.FiveMerrKey ~= "" then
+    TriggerClientEvent("zerio-cardealer-imagecreator:getinfo", source,
+      { url = "https://api.fivemerr.com/v1/media/images", type = "file", authKey = Config.FiveMerrKey, encoding = "png" })
   end
 end)
 

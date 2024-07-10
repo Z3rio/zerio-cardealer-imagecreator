@@ -180,38 +180,24 @@ Citizen.CreateThread(function()
           CellCamActivate(true, true)
           Citizen.Wait(100)
           SpawnVehicleLocal(v.model)
-          local wait = promise.new()
-          if webhook and string.find(webhook, "discord") > 0 then
-            exports["screenshot-basic"]:requestScreenshotUpload(webhook, "files", function(data)
-              local image = json.decode(data)
-              DestroyMobilePhone()
-              CellCamActivate(false, false)
-              if
-                  image
-                  and image.attachments
-                  and image.attachments[1]
-                  and image.attachments[1].proxy_url ~= nil
-              then
-                TriggerServerEvent("zerio-cardealer-imagecreator:save", {
-                  model = v.model,
-                  img = image.attachments[1].proxy_url,
-                })
-              else
-                error("Seems like the image wasnt successfully uploaded")
-              end
+          if webhook then
+            local wait = promise.new()
 
-              wait:resolve()
-            end)
-          else
-            exports["screenshot-basic"]:requestScreenshotUpload(webhook, "files", {
+            exports["screenshot-basic"]:requestScreenshotUpload(webhook.url, webhook.type, {
               headers = {
-                Authorization = authKey,
+                Authorization = webhook.authKey,
               },
+              encoding = webhook.encoding
             }, function(data)
               local image = json.decode(data)
               DestroyMobilePhone()
               CellCamActivate(false, false)
-              if
+              if image and image.url then
+                TriggerServerEvent("zerio-cardealer-imagecreator:save", {
+                  model = v.model,
+                  img = image.url
+                })
+              elseif
                   image
                   and image.attachments
                   and image.attachments[1]
@@ -227,8 +213,9 @@ Citizen.CreateThread(function()
 
               wait:resolve()
             end)
+
+            Citizen.Await(wait)
           end
-          Citizen.Await(wait)
         else
           print("Seems like this model is invalid")
         end
